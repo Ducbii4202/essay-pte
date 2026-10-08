@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Bài giảng viết Essay PTE – từng bước</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Be+Vietnam+Pro:wght@400;500;600&display=swap">
+<style>
+:root{
+  --bg:#F7F8FA; --card:#FFFFFF; --ink:#1F2430; --muted:#667085; --line:#E3E6EC;
+  --fixed-bg:#FFE58A; --fixed-ink:#3D2E00;
+  --x:#1D5FD1; --l:#1E8A3C; --h:#C9302C;
+  --accent:#1D5FD1;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#14171D; --card:#1F242D; --ink:#EEF1F6; --muted:#9AA4B5; --line:#323A47;
+    --fixed-bg:#5C4B10; --fixed-ink:#FFE9A0; --x:#7DB0FF; --l:#6FD08A; --h:#FF8A84; --accent:#7DB0FF;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#14171D; --card:#1F242D; --ink:#EEF1F6; --muted:#9AA4B5; --line:#323A47;
+  --fixed-bg:#5C4B10; --fixed-ink:#FFE9A0; --x:#7DB0FF; --l:#6FD08A; --h:#FF8A84; --accent:#7DB0FF;
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--ink);font:17px/1.6 "Be Vietnam Pro",system-ui,sans-serif;-webkit-text-size-adjust:100%}
+#app{height:100%;display:flex;flex-direction:column;max-width:600px;margin:0 auto}
+header{padding:12px 16px 6px}
+.bar{height:6px;background:var(--line);border-radius:9px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--accent);width:0;transition:width .25s}
+.step{font-size:13px;color:var(--muted);margin-top:6px}
+main{flex:1;overflow-y:auto;padding:8px 16px 20px}
+h1{font:800 28px/1.2 "Baloo 2",sans-serif;margin:8px 0 12px}
+h2{font:800 20px/1.25 "Baloo 2",sans-serif;margin:18px 0 6px}
+p{margin:8px 0}
+.vi{color:var(--muted);font-size:15px}
+footer{display:flex;gap:10px;padding:10px 16px 14px;border-top:1px solid var(--line);background:var(--card)}
+footer button{flex:1;min-height:52px;border-radius:14px;font:600 17px "Be Vietnam Pro",sans-serif;cursor:pointer;border:2px solid var(--line);background:var(--card);color:var(--ink)}
+footer button.next{background:var(--accent);border-color:var(--accent);color:#fff}
+footer button:disabled{opacity:.35;cursor:default}
+button:focus-visible{outline:3px solid var(--fixed-bg);outline-offset:2px}
+
+/* color code */
+.f{background:var(--fixed-bg);color:var(--fixed-ink);padding:1px 5px;border-radius:5px;font-weight:600}
+.x{color:var(--x);font-weight:600;border-bottom:2px solid var(--x)}
+.l{color:var(--l);font-weight:600;border-bottom:2px solid var(--l)}
+.h{color:var(--h);font-weight:600;border-bottom:2px solid var(--h)}
+
+.box{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin:12px 0}
+.box.legend div{display:flex;align-items:center;gap:10px;margin:8px 0}
+.sent{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--accent);border-radius:12px;padding:12px 14px;margin:12px 0}
+.sent .lab{font-size:13px;color:var(--muted);margin-bottom:4px;font-weight:600}
+.sent .en{font-size:18px;line-height:1.7}
+.sent .vi{margin-top:6px}
+.arrow{text-align:center;font-size:22px;color:var(--muted);margin:2px 0}
+.tip{background:color-mix(in srgb,var(--fixed-bg) 45%,var(--card));border-radius:12px;padding:12px 14px;margin:14px 0;font-size:16px}
+.big{font:800 22px/1.35 "Baloo 2",sans-serif}
+
+.stack div{border-radius:12px;padding:14px;margin:8px 0;font-weight:600;color:#fff}
+.stack .a{background:#C98A1B}.stack .b{background:#2F8F45}.stack .c{background:#B5473A}.stack .d{background:#C98A1B}
+.stack small{display:block;font-weight:400;opacity:.95}
+
+table{width:100%;border-collapse:collapse;font-size:15px}
+td,th{padding:9px 6px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{color:var(--muted);font-size:13px}
+.k{display:inline-block;min-width:44px;text-align:center;font-weight:700;border-radius:8px;padding:1px 8px;color:#fff;background:var(--accent)}
+
+.ex{background:var(--card);border:2px dashed var(--accent);border-radius:14px;padding:14px;margin:14px 0}
+.ex .t{font-weight:700;color:var(--accent)}
+.rv{margin-top:8px;min-height:46px;width:100%;border-radius:12px;border:0;background:var(--accent);color:#fff;font:600 16px "Be Vietnam Pro",sans-serif;cursor:pointer}
+.ans{margin-top:10px;padding:10px 12px;border-radius:10px;background:color-mix(in srgb,var(--l) 14%,var(--card))}
+.ans[hidden]{display:none}
+.essay p{margin:12px 0}
+.tag{font-size:12px;font-weight:700;color:#fff;border-radius:6px;padding:1px 7px;margin-right:4px;vertical-align:1px}
+.tag.y{background:#C9302C}.tag.v{background:#7A4A1F}.tag.vi{background:#5B5BD6}.tag.vay{background:#1D8A8A}
+</style>
+</head>
+<body>
+<div id="app">
+  <header>
+    <div class="bar"><i id="bar"></i></div>
+    <div class="step" id="step"></div>
+  </header>
+  <main id="main"></main>
+  <footer>
+    <button id="prev">← Trước</button>
+    <button id="next" class="next">Tiếp →</button>
+  </footer>
+</div>
+
+<script>
+/* helpers */
+const F=t=>`<span class="f">${t}</span>`;
+const X=t=>`<span class="x">${t}</span>`;
+const L=t=>`<span class="l">${t}</span>`;
+const H=t=>`<span class="h">${t}</span>`;
+const sent=(lab,en,vi)=>`<div class="sent"><div class="lab">${lab}</div><div class="en">${en}</div>${vi?`<div class="vi">${vi}</div>`:''}</div>`;
+const arrow='<div class="arrow">⬇</div>';
+const ex=(q,a)=>`<div class="ex"><div class="t">✏️ Tự làm</div>${q}<button class="rv">Xem đáp án</button><div class="ans" hidden>${a}</div></div>`;
+
+const S=[];
+
+/* 0 */
+S.push(`<h1>Viết essay PTE<br>dễ như điền chỗ trống</h1>
+<p>Đề thi: <b>1 câu hỏi</b>, viết <b>200–300 từ</b>, trong <b>20 phút</b>.</p>
+<p>Điểm hay: <b>không cần sáng tạo</b>. Template là cái khung có sẵn chữ. Bạn chỉ học thuộc khung rồi <b>điền ý của mình</b> vào chỗ trống.</p>
+<div class="tip">📌 <b>Cách học:</b> mỗi màn hình chỉ có 1 ý. Đọc chậm, làm bài tập nhỏ, rồi bấm “Tiếp”. Đừng vội, học xong khoảng 20 phút.</div>
+<p class="vi">Bài này dùng chủ đề <b>smartphones</b> (điện thoại thông minh) làm ví dụ xuyên suốt.</p>`);
+
+/* 1 */
+S.push(`<h1>Bài essay có 4 phần</h1>
+<p>Hãy nghĩ essay như cái bánh burger:</p>
+<div class="stack">
+ <div class="a">🍞 Mở bài<small>Giới thiệu chủ đề + nói phe của bạn (2 câu)</small></div>
+ <div class="b">🥬 Thân bài 1: LỢI<small>Nói 1 điều lợi (4 câu)</small></div>
+ <div class="c">🥩 Thân bài 2: HẠI<small>Nói 1 điều hại (4 câu)</small></div>
+ <div class="d">🍞 Kết bài<small>Chốt lại (1 câu)</small></div>
+</div>
+<p class="vi">Đề thi 95% là dạng “lợi và hại”, nên khung này dùng được hầu hết các đề.</p>`);
+
+/* 2 */
+S.push(`<h1>Cách đọc màu trong bài</h1>
+<p>Để khỏi rối, mình dùng 4 màu. Nhìn màu là biết phải làm gì:</p>
+<div class="box legend">
+ <div>${F('chữ vàng')} <span>= <b>học thuộc</b>, luôn giữ nguyên</span></div>
+ <div>${X('chữ xanh dương')} <span>= <b>chủ đề</b> (đề thi cho)</span></div>
+ <div>${L('chữ xanh lá')} <span>= <b>ý LỢI</b> của bạn</span></div>
+ <div>${H('chữ đỏ')} <span>= <b>ý HẠI</b> của bạn</span></div>
+</div>
+<p>Ví dụ:</p>
+${sent('Khung', `${F('These days,')} ${X('X')} ${F('can be controversial.')}`, 'Chỉ cần thay X.')}
+${arrow}
+${sent('Sau khi điền', `${F('These days,')} ${X('smartphones')} ${F('can be controversial.')}`, 'Dạo này, điện thoại thông minh gây nhiều tranh cãi.')}
+<div class="tip">👉 <b>Chữ vàng không đổi. Chỉ đổi chữ có màu.</b></div>`);
+
+/* 3 */
+S.push(`<h1>Mấy ký hiệu lạ trong template</h1>
+<p>Template gốc có chữ viết tắt. Đây là nghĩa của chúng:</p>
+<div class="box"><table>
+<tr><th>Ký hiệu</th><th>Nghĩa</th><th>Ví dụ</th></tr>
+<tr><td><span class="k">X</span></td><td>chủ đề của đề bài</td><td>smartphones</td></tr>
+<tr><td><span class="k">S</span></td><td>chủ ngữ (ai/cái gì làm)</td><td>Smartphones</td></tr>
+<tr><td><span class="k">V</span></td><td>động từ (hành động)</td><td>use, play, reduce</td></tr>
+<tr><td><span class="k">O</span></td><td>thứ đứng sau động từ</td><td>games, stress</td></tr>
+<tr><td><span class="k">N</span></td><td>danh từ (tên sự vật)</td><td>entertainment</td></tr>
+<tr><td><span class="k">V-ing</span></td><td>động từ thêm -ing</td><td>relaxing</td></tr>
+</table></div>
+<p class="vi">Không cần nhớ hết ngay. Mỗi lần gặp mình sẽ nhắc lại.</p>`);
+
+/* 4 */
+S.push(`<h1>Trước khi viết: chọn 2 ý</h1>
+<p>Bước <b>quan trọng nhất</b>: chọn trước <b>1 điều lợi</b> và <b>1 điều hại</b>. Chọn đơn giản thôi.</p>
+<div class="box">
+ <p><b>Chủ đề:</b> ${X('smartphones')}</p>
+ <p>${L('Lợi: giúp giải trí (entertainment)')}</p>
+ <p>${H('Hại: làm hại mắt (our eyes)')}</p>
+</div>
+<p>Cả bài xoay quanh đúng 2 ý này. Không cần ý thứ 3.</p>
+${ex('<p>Chủ đề <b>social media</b> (mạng xã hội). Bạn thử chọn 1 lợi và 1 hại bằng tiếng Việt.</p>','<p>Gợi ý: ' + L('Lợi: giữ liên lạc với bạn bè (communication)') + '<br>' + H('Hại: mất nhiều thời gian (our time)') + '</p>')}`);
+
+/* 5 */
+S.push(`<h1>MỞ BÀI – Câu 1</h1>
+${sent('Khung (học thuộc)', `${F('These days,')} ${X('X')} ${F('can be controversial.')}`, 'Dạo này, X gây tranh cãi.')}
+<p>Chỉ làm 1 việc: thay <b>X</b> bằng chủ đề.</p>
+${sent('Điền vào', `${F('These days,')} ${X('smartphones')} ${F('can be controversial.')}`)}
+${ex('<p>Chủ đề <b>social media</b>. Viết lại cả câu.</p>',`<p>${F('These days,')} ${X('social media')} ${F('can be controversial.')}</p>`)}`);
+
+/* 6 */
+S.push(`<h1>MỞ BÀI – Câu 2</h1>
+${sent('Khung (học thuộc)', `${F('While some think that')} ${L('[lợi]')}, ${F('I agree with those who feel that')} ${H('[hại]')}.`, 'Trong khi có người nghĩ [lợi], tôi đồng ý với những người cho rằng [hại].')}
+<p>Điền ý lợi và ý hại ở slide trước vào:</p>
+${sent('Điền vào', `${F('While some think that')} ${L('smartphones can enhance entertainment')}, ${F('I agree with those who feel that')} ${H('smartphones can negatively affect our eyes')}.`, 'Trong khi có người nghĩ điện thoại làm giải trí vui hơn, tôi đồng ý với người cho rằng điện thoại làm hại mắt.')}
+<div class="tip">💡 Hai chỗ trống này sẽ dùng lại ở thân bài. Cứ giữ thật chắc 2 ý này.</div>`);
+
+/* 7 */
+S.push(`<h1>Bài tập: hoàn thành MỞ BÀI</h1>
+<p>Chủ đề <b>social media</b>. Dùng ý đã chọn:</p>
+<p>${L('Lợi: can enhance communication')}<br>${H('Hại: can waste our time')}</p>
+${ex('<p>Viết đủ <b>2 câu</b> mở bài.</p>',`<p>${F('These days,')} ${X('social media')} ${F('can be controversial. While some think that')} ${L('social media can enhance communication')}, ${F('I agree with those who feel that')} ${H('social media can waste our time')}.</p>`)}`);
+
+/* 8 */
+S.push(`<h1>THÂN BÀI 1 (LỢI)<br>Nhớ: Ý – Vì – Ví – Vậy</h1>
+<p>Thân bài nào cũng có <b>4 câu</b>, theo thứ tự:</p>
+<div class="box">
+<p><span class="tag y">Ý</span> <b>Ý</b>: điều lợi là gì?</p>
+<p><span class="tag v">Vì</span> <b>Vì</b>: vì sao lại lợi?</p>
+<p><span class="tag vi">Ví</span> <b>Ví</b>: cho ví dụ thật.</p>
+<p><span class="tag vay">Vậy</span> <b>Vậy</b>: kết quả ra sao?</p>
+</div>
+<div class="tip">🧠 Đọc to 3 lần: <b>“Ý – Vì – Ví – Vậy”</b>. Phần HẠI cũng làm y chang.</div>`);
+
+/* 9 */
+S.push(`<h1>LỢI – câu “Ý”</h1>
+${sent('Khung (học thuộc)', `${F('To commence with,')} ${X('X')} ${F('can bring a number of benefits, with the main one being that')} ${L('[ý lợi]')}.`, 'Trước hết, X có thể mang lại nhiều lợi ích, mà lợi ích chính là [ý lợi].')}
+<h2>[ý lợi] viết thế nào?</h2>
+<p>Chọn 1 trong 2 mẫu:</p>
+<div class="box">
+<p>${X('S')} ${F('can play a vital role in')} ${L('N/V-ing')}<br><span class="vi">= đóng vai trò quan trọng trong…</span></p>
+<p>${X('S')} ${F('can enhance')} ${L('N/V-ing')}<br><span class="vi">= làm tăng/làm tốt hơn…</span></p>
+</div>
+${sent('Điền vào', `${F('To commence with,')} ${X('smartphones')} ${F('can bring a number of benefits, with the main one being that')} ${X('smartphones')} ${F('can enhance')} ${L('entertainment')}.`)}`);
+
+/* 10 */
+S.push(`<h1>LỢI – câu “Vì”</h1>
+<p>Câu này giải thích <b>vì sao</b> lại lợi.</p>
+${sent('Khung (học thuộc)', `${F('This is because')} S+V+O, ${F('which can')} V+O, ${F('thereby')} V-ing.`, 'Điều này là vì…, điều đó có thể…, nhờ đó…')}
+<h2>Cắt ra từng mảnh cho dễ hiểu</h2>
+<div class="box">
+<p><b>Mảnh 1</b> (S+V+O): Many people play games<br><span class="vi">Nhiều người chơi game</span></p>
+<p><b>Mảnh 2</b> (which can + V+O): which can reduce stress<br><span class="vi">điều này giúp giảm căng thẳng</span></p>
+<p><b>Mảnh 3</b> (thereby + V-ing): thereby relaxing after work<br><span class="vi">nhờ đó thư giãn sau giờ làm</span></p>
+</div>
+${sent('Ghép lại', `${F('This is because')} many people play games, ${F('which can')} reduce stress, ${F('thereby')} relaxing after work.`)}
+<p class="vi">Có thể thay <b>thereby</b> bằng <b>hence</b>, nghĩa giống nhau.</p>`);
+
+/* 11 */
+S.push(`<h1>LỢI – câu “Ví”</h1>
+<p>Cho một ví dụ <b>có địa điểm</b>, rất dễ.</p>
+${sent('Khung (học thuộc)', `${F('For example, in Vietnam,')} many students/people/parents V+O…`, 'Ví dụ, ở Việt Nam, nhiều học sinh/người/phụ huynh…')}
+${sent('Điền vào', `${F('For example, in Vietnam,')} students use their phones to play games at night to relax.`, 'Ví dụ, ở Việt Nam, học sinh dùng điện thoại chơi game buổi tối để thư giãn.')}
+<div class="tip">💡 Mở đầu bằng <b>in Vietnam</b> hoặc <b>in Australia</b>. Không cần số liệu thật, chỉ cần hợp lý.</div>`);
+
+/* 12 */
+S.push(`<h1>LỢI – câu “Vậy”</h1>
+<p>Kết quả, dùng <b>câu điều kiện loại 1</b> (chuyện có thật).</p>
+${sent('Khung (học thuộc)', `${F('Therefore, if')} (hiện tại đơn), S ${F('will')} V+O.`, 'Vì vậy, nếu…, thì…')}
+<div class="box">
+<p><b>Công thức:</b> ${F('If')} + hiện tại đơn, ${F('will')} + động từ</p>
+<p>Giống: <i>If it rains, I will stay at home.</i><br><span class="vi">Nếu trời mưa, tôi sẽ ở nhà.</span></p>
+</div>
+${sent('Điền vào', `${F('Therefore, if')} people do not have smartphones, they ${F('will')} be very stressed.`, 'Vì vậy, nếu mọi người không có điện thoại, họ sẽ rất căng thẳng.')}
+<div class="tip">🧠 <b>Mẹo nhớ:</b> LỢI = chuyện thật → dùng <b>will</b>.</div>`);
+
+/* 13 */
+S.push(`<h1>Ghép thân bài LỢI</h1>
+<p>Đọc cả đoạn, nhìn xem 4 câu nối với nhau thế nào:</p>
+<div class="box essay">
+<p><span class="tag y">Ý</span>${F('To commence with,')} smartphones ${F('can bring a number of benefits, with the main one being that')} smartphones ${F('can enhance')} entertainment.</p>
+<p><span class="tag v">Vì</span>${F('This is because')} many people play games, ${F('which can')} reduce stress, ${F('thereby')} relaxing after work.</p>
+<p><span class="tag vi">Ví</span>${F('For example, in Vietnam,')} students use their phones to play games at night to relax.</p>
+<p><span class="tag vay">Vậy</span>${F('Therefore, if')} people do not have smartphones, they ${F('will')} be very stressed.</p>
+</div>`);
+
+/* 14 */
+S.push(`<h1>Bài tập: viết thân bài LỢI</h1>
+<p>Chủ đề <b>social media</b>, ý lợi: giữ liên lạc.</p>
+${ex(`<p>Viết 4 câu Ý – Vì – Ví – Vậy.<br><span class="vi">Gợi ý: chat với bạn bè → rút ngắn khoảng cách → giữ liên lạc. Nếu không có mạng xã hội → khó liên lạc.</span></p>`,
+`<p>${F('To commence with,')} social media ${F('can bring a number of benefits, with the main one being that')} social media ${F('can enhance')} communication.</p>
+<p>${F('This is because')} many people chat with friends online, ${F('which can')} reduce distance, ${F('thereby')} staying in touch.</p>
+<p>${F('For example, in Vietnam,')} many students use Zalo to talk with classmates after school.</p>
+<p>${F('Therefore, if')} people do not have social media, they ${F('will')} find it hard to keep in touch.</p>`)}`);
+
+/* 15 */
+S.push(`<h1>THÂN BÀI 2 (HẠI)<br>Cũng Ý – Vì – Ví – Vậy</h1>
+<p>Phần hại làm <b>y chang</b> phần lợi, chỉ khác 3 chỗ:</p>
+<div class="box">
+<p>1️⃣ Mở đầu bằng <b>On the contrary</b> (Ngược lại)</p>
+<p>2️⃣ Dùng mẫu “hại” thay mẫu “lợi”</p>
+<p>3️⃣ Câu “Vậy” dùng <b>câu điều kiện loại 2</b></p>
+</div>
+<h2>Câu “Ý” – HẠI</h2>
+${sent('Khung (học thuộc)', `${F('On the contrary, critics argue that')} ${X('S')} ${F('can wreak havoc on')} ${H('N/V-ing')}.`, 'Ngược lại, những người phản đối cho rằng S gây hại nặng cho…')}
+<p>3 mẫu “hại”, chọn 1:</p>
+<div class="box">
+<p>${F('can wreak havoc on')} … <span class="vi">= gây tàn phá cho</span></p>
+<p>${F('can take a massive toll on')} … <span class="vi">= gây tổn hại lớn cho</span></p>
+<p>${F('can negatively affect')} … <span class="vi">= ảnh hưởng xấu đến</span></p>
+</div>
+${sent('Điền vào', `${F('On the contrary, critics argue that')} overusing smartphones ${F('can wreak havoc on')} ${H('our eyes')}.`)}`);
+
+/* 16 */
+S.push(`<h1>HẠI – câu “Vì”</h1>
+${sent('Khung (học thuộc)', `${F('This is mainly due to the fact that')} S+V+O, ${F('which can')} V+O, ${F('hence')} V-ing.`, 'Điều này chủ yếu là do…, điều đó có thể…, vì thế…')}
+<div class="box">
+<p><b>Mảnh 1:</b> a lot of people spend hours on their phones<br><span class="vi">nhiều người dùng điện thoại hàng giờ</span></p>
+<p><b>Mảnh 2:</b> which can harm their eyes<br><span class="vi">điều này hại mắt họ</span></p>
+<p><b>Mảnh 3:</b> hence wearing glasses<br><span class="vi">vì thế phải đeo kính</span></p>
+</div>
+${sent('Ghép lại', `${F('This is mainly due to the fact that')} a lot of people spend hours on their phones, ${F('which can')} harm their eyes, ${F('hence')} wearing glasses.`)}`);
+
+/* 17 */
+S.push(`<h1>HẠI – câu “Ví”</h1>
+${sent('Khung (học thuộc)', `${F('For instance, in Australia,')} many children V+O…`, 'Ví dụ, ở Úc, nhiều trẻ em…')}
+${sent('Điền vào', `${F('For instance, in Australia,')} many children spend many hours watching videos, so they have to wear glasses early.`, 'Ví dụ, ở Úc, nhiều trẻ xem video hàng giờ nên phải đeo kính sớm.')}
+<p class="vi">“For example” và “For instance” nghĩa giống nhau. Đổi cho bài đỡ lặp từ.</p>`);
+
+/* 18 */
+S.push(`<h1>HẠI – câu “Vậy”</h1>
+<p>Dùng <b>câu điều kiện loại 2</b> (giả sử, chưa xảy ra).</p>
+${sent('Khung (học thuộc)', `${F('As a result, if')} S ${F('were to')} V, S ${F('would/could')} V+O.`, 'Do đó, nếu S (giả sử) làm…, thì S sẽ…')}
+${sent('Điền vào', `${F('As a result, if')} schools and parents ${F('were to')} ban smartphones, the children’s eyes ${F('would')} be healthy.`, 'Do đó, nếu trường học và phụ huynh cấm điện thoại, mắt trẻ sẽ khỏe.')}
+<div class="tip">🧠 <b>Mẹo nhớ:</b><br>LỢI = chuyện thật → <b>will</b><br>HẠI = “giả sử cấm” → <b>were to… would</b></div>`);
+
+/* 19 */
+S.push(`<h1>Ghép thân bài HẠI</h1>
+<div class="box essay">
+<p><span class="tag y">Ý</span>${F('On the contrary, critics argue that')} smartphones ${F('can take a massive toll on')} our eyes.</p>
+<p><span class="tag v">Vì</span>${F('This is mainly due to the fact that')} a lot of people spend hours on their phones, ${F('which can')} harm their eyes, ${F('hence')} wearing glasses.</p>
+<p><span class="tag vi">Ví</span>${F('For instance, in Australia,')} many children spend many hours watching videos, so they have to wear glasses early.</p>
+<p><span class="tag vay">Vậy</span>${F('As a result, if')} schools and parents ${F('were to')} ban smartphones, the children’s eyes ${F('would')} be healthy.</p>
+</div>`);
+
+/* 20 */
+S.push(`<h1>Bài tập: viết thân bài HẠI</h1>
+<p>Chủ đề <b>social media</b>, ý hại: mất thời gian.</p>
+${ex(`<p>Viết 4 câu Ý – Vì – Ví – Vậy.<br><span class="vi">Gợi ý: nhiều người lướt hàng giờ → bỏ bê học tập. Nếu trường giới hạn giờ dùng → học sinh học tốt hơn.</span></p>`,
+`<p>${F('On the contrary, critics argue that')} social media ${F('can take a massive toll on')} our time.</p>
+<p>${F('This is mainly due to the fact that')} a lot of people scroll for hours, ${F('which can')} distract them from study, ${F('hence')} getting poor results.</p>
+<p>${F('For instance, in Australia,')} many students spend hours on social media, so they fail to finish homework.</p>
+<p>${F('As a result, if')} schools ${F('were to')} limit social media time, students ${F('would')} study better.</p>`)}`);
+
+/* 21 */
+S.push(`<h1>KẾT BÀI – chỉ 1 câu</h1>
+${sent('Khung (học thuộc)', `${F('In conclusion, although')} ${L('[một vế]')}, ${F('the')} ${H('[vế còn lại]')} ${F('of')} ${X('X')} ${F('are far more significant.')}`, 'Tóm lại, mặc dù…, nhưng… quan trọng hơn nhiều.')}
+${sent('Bạn chọn phe HẠI', `${F('In conclusion, although')} smartphones ${L('can enhance entertainment')}, ${F('the')} ${H('harms')} ${F('of')} smartphones ${F('are far more significant.')}`)}
+<div class="tip">⚠️ <b>Phải nhất quán!</b><br>Template gốc mở bài đồng ý phe <b>hại</b> nhưng kết bài nói <b>lợi</b> quan trọng hơn: bị lệch.<br>Chọn phe nào ở mở bài thì kết bài cũng phải nói phe đó quan trọng hơn.</div>`);
+
+/* 22 */
+S.push(`<h1>Bài hoàn chỉnh</h1>
+<div class="box essay">
+<p>${F('These days,')} smartphones ${F('can be controversial. While some think that')} smartphones can enhance entertainment, ${F('I agree with those who feel that')} smartphones can negatively affect our eyes.</p>
+<p>${F('To commence with,')} smartphones ${F('can bring a number of benefits, with the main one being that')} smartphones ${F('can enhance')} entertainment. ${F('This is because')} many people play games, ${F('which can')} reduce stress, ${F('thereby')} relaxing after work. ${F('For example, in Vietnam,')} students use their phones to play games at night to relax. ${F('Therefore, if')} people do not have smartphones, they ${F('will')} be very stressed.</p>
+<p>${F('On the contrary, critics argue that')} smartphones ${F('can take a massive toll on')} our eyes. ${F('This is mainly due to the fact that')} a lot of people spend hours on their phones, ${F('which can')} harm their eyes, ${F('hence')} wearing glasses. ${F('For instance, in Australia,')} many children spend many hours watching videos, so they have to wear glasses early. ${F('As a result, if')} schools and parents ${F('were to')} ban smartphones, the children’s eyes ${F('would')} be healthy.</p>
+<p>${F('In conclusion, although')} smartphones can enhance entertainment, ${F('the harms of')} smartphones ${F('are far more significant.')}</p>
+</div>
+<p class="vi">Nhìn xem: <b>chữ vàng chiếm hơn một nửa bài</b>. Học thuộc phần vàng là xong gần hết.</p>`);
+
+/* 23 */
+S.push(`<h1>Tờ nhớ nhanh (1 trang)</h1>
+<div class="box"><table>
+<tr><th>Phần</th><th>Câu học thuộc</th></tr>
+<tr><td><b>Mở</b></td><td>${F('These days, X can be controversial. While some think that…, I agree with those who feel that…')}</td></tr>
+<tr><td><b>Ý lợi</b></td><td>${F('To commence with… can enhance / play a vital role in…')}</td></tr>
+<tr><td><b>Vì</b></td><td>${F('This is because… which can… thereby V-ing')}</td></tr>
+<tr><td><b>Ví</b></td><td>${F('For example, in Vietnam, many…')}</td></tr>
+<tr><td><b>Vậy lợi</b></td><td>${F('Therefore, if + hiện tại, will…')}</td></tr>
+<tr><td><b>Ý hại</b></td><td>${F('On the contrary, critics argue that… can wreak havoc on…')}</td></tr>
+<tr><td><b>Vì</b></td><td>${F('This is mainly due to the fact that… which can… hence V-ing')}</td></tr>
+<tr><td><b>Ví</b></td><td>${F('For instance, in Australia, many…')}</td></tr>
+<tr><td><b>Vậy hại</b></td><td>${F('As a result, if… were to…, would…')}</td></tr>
+<tr><td><b>Kết</b></td><td>${F('In conclusion, although…, the harms of… are far more significant.')}</td></tr>
+</table></div>
+<div class="tip">🎯 <b>Lịch học 3 ngày:</b><br>Ngày 1: đọc to phần Mở + LỢI.<br>Ngày 2: đọc to phần HẠI + Kết.<br>Ngày 3: tự viết bài chủ đề <b>online learning</b> trong 20 phút.</div>`);
+
+/* ---------- engine ---------- */
+let i=0;
+const main=document.getElementById('main');
+function render(){
+  main.innerHTML=S[i];
+  main.scrollTop=0;
+  document.getElementById('bar').style.width=((i+1)/S.length*100)+'%';
+  document.getElementById('step').textContent='Bước '+(i+1)+' / '+S.length;
+  document.getElementById('prev').disabled=i===0;
+  const n=document.getElementById('next');
+  n.disabled=i===S.length-1;
+  n.textContent=i===S.length-2?'Xem tờ nhớ nhanh →':'Tiếp →';
+  if(i===S.length-1)n.textContent='Hết rồi 🎉';
+  try{sessionStorage.setItem('pte_i',i)}catch(e){}
+}
+document.getElementById('next').onclick=()=>{if(i<S.length-1){i++;render()}};
+document.getElementById('prev').onclick=()=>{if(i>0){i--;render()}};
+main.addEventListener('click',e=>{
+  const b=e.target.closest('.rv');
+  if(!b)return;
+  const a=b.nextElementSibling;
+  a.hidden=!a.hidden;
+  b.textContent=a.hidden?'Xem đáp án':'Ẩn đáp án';
+});
+let sx=null;
+main.addEventListener('touchstart',e=>{sx=e.touches[0].clientX},{passive:true});
+main.addEventListener('touchend',e=>{
+  if(sx===null)return;
+  const dx=e.changedTouches[0].clientX-sx;sx=null;
+  if(Math.abs(dx)>80){ if(dx<0&&i<S.length-1){i++;render()} else if(dx>0&&i>0){i--;render()} }
+},{passive:true});
+try{const s=+sessionStorage.getItem('pte_i');if(s>=0&&s<S.length)i=s}catch(e){}
+render();
+</script>
+</body>
+</html>
