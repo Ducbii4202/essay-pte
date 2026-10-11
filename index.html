@@ -361,6 +361,17 @@ select.txt{appearance:auto}
 .chklist li{padding:4px 0;border-bottom:1px solid var(--line)}
 .chklist li.ok{color:var(--ok)}.chklist li.bad{color:var(--bad)}
 .chklist small{color:var(--muted)}
+/* ===== v7: PTE-style status + seconds counter ===== */
+.pte-st{background:var(--card);border:2px solid var(--line);border-radius:16px;padding:12px 14px}
+.pte-st.play{border-color:var(--accent)}.pte-st.rec{border-color:var(--bad)}.pte-st.done{border-color:var(--ok)}
+.pte-top{display:flex;justify-content:space-between;align-items:center;gap:8px;font-weight:700;font-size:15px}
+.pte-sec{font:800 34px/1 "Baloo 2",sans-serif;font-variant-numeric:tabular-nums;white-space:nowrap}
+.pte-sec small{font:600 13px "Be Vietnam Pro",sans-serif;color:var(--muted)}
+.pte-bar{height:12px;border-radius:99px;background:var(--line);overflow:hidden;margin:8px 0 4px}
+.pte-bar i{display:block;height:100%;width:0;border-radius:99px;background:var(--accent);transition:width .1s linear}
+.pte-st.rec .pte-bar i{background:var(--bad)}.pte-st.rec.low .pte-bar i{background:var(--warn)}.pte-st.done .pte-bar i{background:var(--ok)}
+.pte-hint{font-size:12px;color:var(--muted);min-height:16px}
+@media (prefers-reduced-motion:reduce){.pte-bar i{transition:none}}
 </style>
 </head>
 <body>
@@ -801,7 +812,7 @@ function runRecognition(opts){
     }
     transcript=t;confs=cs;
     opts.onUpdate&&opts.onUpdate(t);
-    clearTimeout(sil);sil=setTimeout(stop,2200);
+    clearTimeout(sil);sil=setTimeout(stop,opts.silenceMs||2200);
   };
   rec.onerror=e=>{if(e.error!=='no-speech'&&e.error!=='aborted')err=e.error};
   rec.onend=finalize;
@@ -2246,8 +2257,9 @@ function rsPractice(body){
   const it=ITEMS('rs')[rsIdx],best=getScore('rs',it.n);
   const exam=rsExam;
   const canBlur=exam;
-  let recording=false,timer=null,raf=null,t0=0,stopHandle=null;
-  const stopTimers=()=>{clearInterval(timer);cancelAnimationFrame(raf);timer=raf=null};
+  let recording=false,timer=null,raf=null,t0=0,stopHandle=null,pTimer=null;
+  const MAX_S=15,SIL_S=3;
+  const stopTimers=()=>{clearInterval(timer);clearInterval(pTimer);cancelAnimationFrame(raf);timer=raf=pTimer=null};
   stopHooks.push(stopTimers);
   body.innerHTML=`<div class="stage">
     <div class="chips"><span class="chip">Câu ${rsIdx+1}/${ITEMS('rs').length}</span>${it.id?`<span class="chip">ID ${it.id}</span>`:''}<span class="chip">${wcount(it.en)} từ</span>${best?`<span class="chip ${gradeCls(best.v/best.m)}">Tốt nhất ${best.v}/${best.m}</span>`:''}</div>
@@ -2256,6 +2268,11 @@ function rsPractice(body){
       <div class="sentence ${(exam||!rsShowEn)?'blur':''}" data-a="en">${esc(it.en)}</div>
       <div class="vi ${rsShowVi?'':'hide'}" data-a="vi">${esc(it.vi)}</div>
       <div class="links"><button class="link" data-a="te">👁 Hiện/ẩn chữ</button><button class="link" data-a="tv">🇻🇳 Hiện/ẩn dịch</button></div>
+    </div>
+    <div class="pte-st" data-a="pst" hidden>
+      <div class="pte-top"><span data-a="plab">Trạng thái</span><span class="pte-sec" data-a="psec" aria-live="off"></span></div>
+      <div class="pte-bar"><i data-a="pbar"></i></div>
+      <div class="pte-hint" data-a="phint"></div>
     </div>
     <div class="controls">
       <div class="ctl"><button class="round play" data-a="play" aria-label="${exam?'Bắt đầu thi':'Nghe câu mẫu'}">${IC.play}</button><span>${exam?'Bắt đầu':'Nghe mẫu'}</span></div>
@@ -2272,6 +2289,24 @@ function rsPractice(body){
   const stage=body.querySelector('.stage');
   const q=a=>body.querySelector(`[data-a=${a}]`);
   const setStatus=(t,cls)=>{const s=q('status');s.textContent=t;s.className='status'+(cls?' '+cls:'')};
+  const pst=q('pst'),plab=q('plab'),psec=q('psec'),pbar=q('pbar'),phint=q('phint');
+  function pteShow(cls,label,hint){pst.hidden=false;pst.className='pte-st '+cls;plab.textContent=label;phint.textContent=hint||''}
+  function ptePlay(){
+    clearInterval(pTimer);
+    const est=Math.max(1.5,wcount(it.en)*0.42/(tts.rate||1)),s0=performance.now();
+    pteShow('play','Trạng thái: Đang phát câu mẫu','Nghe kỹ, chỉ nghe một lần.');
+    psec.textContent='🔊';pbar.style.width='0%';
+    pTimer=setInterval(()=>{pbar.style.width=Math.min(95,(performance.now()-s0)/1000/est*100)+'%'},100);
+  }
+  function pteEndPlay(next){clearInterval(pTimer);pTimer=null;pbar.style.width='100%';plab.textContent=next?'Trạng thái: Phát xong, chuẩn bị ghi âm…':'Trạng thái: Đã phát xong';psec.textContent='✓';phint.textContent=next?'':'Bấm nút micro để ghi âm và nói lại.'}
+  function pteRec(limit,silence,auto){
+    clearInterval(pTimer);
+    const s0=performance.now();
+    pteShow('rec','Trạng thái: Đang ghi âm',auto?`Tự dừng sau ${silence} giây im lặng hoặc khi hết ${limit} giây.`:'Bấm “Dừng” khi nói xong.');
+    const tick=()=>{const e=(performance.now()-s0)/1000;psec.innerHTML=`${Math.floor(e)}<small> / ${limit} giây</small>`;pbar.style.width=Math.min(100,e/limit*100)+'%';pst.classList.toggle('low',limit-e<=3)};
+    tick();pTimer=setInterval(tick,100);
+  }
+  function pteDone(sec){clearInterval(pTimer);pTimer=null;pteShow('done','Trạng thái: Hoàn thành','');psec.innerHTML=`${Math.floor(sec)}<small> giây</small>`;pbar.style.width='100%'}
   const redo=()=>{stopAll();rsPractice(body)};
   body.querySelectorAll('[data-mode]').forEach(b=>b.onclick=()=>{rsExam=b.dataset.mode==='exam';store.set('rs_exam',rsExam);redo()});
   q('te').onclick=q('en').onclick=()=>{if(canBlur)return;rsShowEn=!rsShowEn;q('en').classList.toggle('blur',!rsShowEn)};
@@ -2281,13 +2316,13 @@ function rsPractice(body){
   q('next').onclick=()=>{goRS((rsIdx+1)%ITEMS('rs').length);redo()};
   q('rand').onclick=()=>{goRS(Math.floor(Math.random()*ITEMS('rs').length));redo()};
 
-  function speakModel(cb){stage.classList.add('speaking');speak(it.en,()=>{stage.classList.remove('speaking');cb&&cb()})}
+  function speakModel(cb,next){stage.classList.add('speaking');ptePlay();speak(it.en,()=>{stage.classList.remove('speaking');pteEndPlay(next);cb&&cb()})}
   q('play').onclick=()=>{
     stopAll();const my=session;q('result').innerHTML='';
     resetMicUI();
     if(exam){
       setStatus('🔊 Nghe kỹ… sau tiếng bíp hãy nói ngay');
-      speakModel(()=>{if(my!==session)return;beep();setTimeout(()=>{if(my===session)startRecord(my)},300)});
+      speakModel(()=>{if(my!==session)return;beep();setTimeout(()=>{if(my===session)startRecord(my)},300)},true);
     }else{
       setStatus('🔊 Đang phát câu mẫu…');
       speakModel(()=>{if(my===session)setStatus('Bấm nút micro để ghi âm và nói lại.')});
@@ -2312,12 +2347,14 @@ function rsPractice(body){
     if(rsKeep||!SR){try{mic=await startMic();activeMic=mic}catch(e){mic=null}}
     if(my!==session){if(mic)mic.stop();return}
     t0=performance.now();
+    const maxMs=exam?MAX_S*1000:Math.max(10000,wcount(it.en)*1000+6000),silMs=exam?SIL_S*1000:2200;
+    pteRec(Math.round(maxMs/1000),+(silMs/1000).toFixed(1),!!SR);
     timer=setInterval(()=>{const s=Math.floor((performance.now()-t0)/1000);q('miclabel').textContent='Dừng · '+Math.floor(s/60)+':'+String(s%60).padStart(2,'0')},250);
     const loop=()=>{if(mic)mb.style.setProperty('--lvl',mic.level().toFixed(2));raf=requestAnimationFrame(loop)};
     loop();
     if(SR){
       activeRec=runRecognition({
-        maxMs:Math.max(10000,wcount(it.en)*1000+6000),
+        maxMs,silenceMs:silMs,
         onUpdate:t=>{q('live').textContent=t},
         onDone:res=>{activeRec=null;finish(my,res,mic)}
       });
@@ -2328,6 +2365,7 @@ function rsPractice(body){
   }
   async function finish(my,res,mic){
     resetMicUI();stopHandle=null;
+    pteDone((performance.now()-t0)/1000);
     let blob=null;
     if(mic){try{blob=await mic.stop()}catch(e){}activeMic=null}
     if(my!==session)return;
